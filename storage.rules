@@ -1,0 +1,27 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper function
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // User uploads (avatars, attachments, etc.)
+    match /uploads/{userId}/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Board attachments
+    match /boards/{boardId}/attachments/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+    }
+    
+    // Task attachments
+    match /tasks/{taskId}/attachments/{allPaths=**} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+    }
+  }
+}
