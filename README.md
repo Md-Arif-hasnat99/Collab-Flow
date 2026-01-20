@@ -59,6 +59,29 @@ We focused on three core pillars during development:
 
 Whether you are a solo developer tracking personal projects or a startup team managing your sprint, CollabFlow provides the structure you need.
 
+## 🎨 Product Demo
+
+<div align="center">
+  <h3>Landing & Role Selection</h3>
+  <img src="public/screenshots/landing_roles.png" alt="Landing Page" width="800"/>
+  <br/><br/>
+
+  <h3>Authentication</h3>
+  <img src="public/screenshots/signup.png" alt="Signup" width="800"/>
+  <br/><br/>
+
+  <h3>Project Board</h3>
+  <img src="public/screenshots/board_empty.png" alt="Board" width="800"/>
+  <br/><br/>
+
+  <h3>Analytics Dashboard</h3>
+  <img src="public/screenshots/analytics.png" alt="Analytics" width="800"/>
+  <br/><br/>
+
+  <h3>Team Chat</h3>
+  <img src="public/screenshots/chat.png" alt="Chat" width="800"/>
+</div>
+
 ---
 
 ## 🚀 Key Features
