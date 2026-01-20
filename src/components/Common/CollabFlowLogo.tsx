@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { CollabFlowIcon } from './CollabFlowIcon';
 
 interface CollabFlowLogoProps {
