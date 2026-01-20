@@ -1,330 +1,289 @@
-# CollabFlow - Remote Team Collaboration Board
-
-A full-featured Kanban-style project management board for remote teams with real-time collaboration capabilities.
-
-![CollabFlow](https://img.shields.io/badge/React-18+-blue)
-![Firebase](https://img.shields.io/badge/Firebase-Latest-orange)
-![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue)
-![Tailwind](https://img.shields.io/badge/Tailwind-3+-cyan)
-
-## 🚀 Features
-
-### ✅ Implemented (Phase 1 & 2)
-
-- **Authentication System**
-
-  - Email/password authentication
-  - Google OAuth integration
-  - Protected routes
-  - User profile management
-
-- **Kanban Board**
-
-  - Drag & drop tasks between columns
-  - Real-time synchronization with Firestore
-  - Column management (create, edit, delete)
-  - Task management (CRUD operations)
-  - Visual priority indicators
-  - Due date tracking with status badges
-
-- **Task Management**
-
-  - Rich task details modal
-  - Priority levels (Low, Medium, High)
-  - Tags/labels
-  - Checklist/subtasks
-  - Task assignments
-  - Due dates
-
-- **Real-time Collaboration**
-  - Live updates across all users
-  - Firestore listeners for instant sync
-  - Optimistic UI updates
-
-### 🚧 Coming Soon (Phase 3 & 4)
-
-- Team chat system
-- @mentions and notifications
-- User presence indicators
-- Analytics dashboard
-- File attachments
-- Comment system
-- Search and filtering
-- Offline support
-- Mobile responsive enhancements
-
-## 🛠 Tech Stack
-
-- **Frontend**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Drag & Drop**: @dnd-kit
-- **Backend**: Firebase
-  - Firestore (Database)
-  - Authentication
-  - Realtime Database
-  - Cloud Storage
-- **State Management**: React Context API
-- **Routing**: React Router v6
-- **Date Handling**: date-fns
-- **Notifications**: react-hot-toast
-- **Icons**: lucide-react
-
-## 📁 Project Structure
-
-```
-CollabFlow/
-├── src/
-│   ├── components/
-│   │   ├── Auth/           # Authentication components
-│   │   ├── Board/          # Kanban board components
-│   │   ├── Chat/           # Chat components (coming soon)
-│   │   ├── Analytics/      # Analytics components (coming soon)
-│   │   ├── Layout/         # Layout components
-│   │   └── Common/         # Shared components
-│   ├── contexts/           # React Context providers
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Firebase configuration
-│   ├── types/              # TypeScript type definitions
-│   ├── utils/              # Utility functions
-│   ├── pages/              # Page components
-│   ├── App.tsx             # Main App component
-│   ├── main.tsx            # Entry point
-│   └── index.css           # Global styles
-├── firestore.rules         # Firestore security rules
-├── storage.rules           # Storage security rules
-├── .env.example            # Environment variables template
-└── README.md
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+ and npm
-- Firebase account
-- Git
-
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   cd CollabFlow
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Set up Firebase**
-
-   a. Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
-
-   b. Enable the following services:
-
-   - Authentication (Email/Password and Google providers)
-   - Firestore Database
-   - Realtime Database
-   - Cloud Storage
-
-   c. Get your Firebase config from Project Settings
-
-4. **Configure environment variables**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Edit `.env` and add your Firebase credentials:
-
-   ```
-   VITE_FIREBASE_API_KEY=your_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-   VITE_FIREBASE_PROJECT_ID=your_project_id
-   VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   VITE_FIREBASE_APP_ID=your_app_id
-   VITE_FIREBASE_DATABASE_URL=https://your_project-default-rtdb.firebaseio.com
-   ```
-
-5. **Deploy Firestore rules**
-
-   ```bash
-   firebase init firestore
-   firebase deploy --only firestore:rules
-   firebase deploy --only storage:rules
-   ```
-
-6. **Start the development server**
-
-   ```bash
-   npm run dev
-   ```
-
-7. **Open your browser**
-   Navigate to `http://localhost:5173`
-
-## 🔐 Firebase Setup
-
-### Firestore Database Structure
-
-Create the following indexes in Firestore:
-
-1. **Tasks Collection**
-
-   - Fields: `boardId` (Ascending), `order` (Ascending)
-   - Fields: `boardId` (Ascending), `columnId` (Ascending)
-
-2. **Columns Collection**
-
-   - Fields: `boardId` (Ascending), `order` (Ascending)
-
-3. **Boards Collection**
-   - Fields: `workspaceId` (Ascending), `createdAt` (Descending)
-
-### Authentication Providers
-
-Enable in Firebase Console > Authentication > Sign-in method:
-
-- Email/Password
-- Google
-
-## 📝 Usage
-
-### Creating Your First Board
-
-1. Sign up or log in
-2. Click "Add Board" in the sidebar
-3. Enter a board name
-4. Create columns (To Do, In Progress, Done, etc.)
-5. Start adding tasks!
-
-### Managing Tasks
-
-- **Create**: Click "Add Task" in any column
-- **Edit**: Click on a task card to open details
-- **Move**: Drag and drop tasks between columns
-- **Delete**: Open task details and click "Delete Task"
-
-### Working with Checklists
-
-- Open any task
-- Add checklist items in the "Checklist" section
-- Check off items as you complete them
-- Track progress with the visual progress bar
-
-## 🎨 Customization
-
-### Adding Custom Colors
-
-Edit `tailwind.config.js` to add your brand colors:
-
-```javascript
-theme: {
-  extend: {
-    colors: {
-      primary: { /* your colors */ },
-      secondary: { /* your colors */ },
-    }
-  }
-}
-```
-
-### Custom Board Columns
-
-Column colors can be customized when creating columns. Preset colors are defined in `AddColumnModal.tsx`.
-
-## 🧪 Testing
-
-```bash
-# Run tests (when implemented)
-npm test
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-## 🚀 Deployment
-
-### Firebase Hosting
-
-```bash
-npm install -g firebase-tools
-firebase login
-firebase init hosting
-npm run build
-firebase deploy
-```
-
-### Vercel
-
-```bash
-npm install -g vercel
-vercel
-```
-
-## 📚 Development Roadmap
-
-- [x] Phase 1: Foundation (Weeks 1-2)
-
-  - [x] Firebase setup
-  - [x] Authentication system
-  - [x] Basic layout and routing
-  - [x] Database structure
-
-- [x] Phase 2: Core Features (Weeks 3-4)
-
-  - [x] Kanban board with drag-and-drop
-  - [x] Task CRUD operations
-  - [x] Real-time synchronization
-  - [x] Task details modal
-
-- [ ] Phase 3: Collaboration (Weeks 5-6)
-
-  - [ ] Chat system
-  - [ ] Notifications
-  - [ ] Presence indicators
-  - [ ] Team management
-
-- [ ] Phase 4: Analytics & Polish (Weeks 7-8)
-  - [ ] Analytics dashboard
-  - [ ] Search and filtering
-  - [ ] Offline support
-  - [ ] Performance optimization
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🙏 Acknowledgments
-
-- React team for the amazing framework
-- Firebase for the backend infrastructure
-- @dnd-kit for the drag-and-drop library
-- Tailwind CSS for the styling system
-
-## 📞 Support
-
-For support, email support@collabflow.dev or open an issue in the repository.
+# CollabFlow
+
+<div align="center">
+  <img src="public/vite.svg" alt="CollabFlow Logo" width="120" height="120" />
+  <br/>
+  <h1>CollabFlow</h1>
+  <h3>The Ultimate Remote Team Collaboration Workspace</h3>
+  <p>
+    A powerful, real-time Kanban project management tool designed to streamline workflows for distributed teams.
+    <br />
+    Built with modern web technologies for performance and scale.
+  </p>
+
+  <div align="center">
+    <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+    <img src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase" alt="Firebase" />
+    <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  </div>
+  
+  <br />
+
+</div>
+
+<details>
+  <summary><strong>Table of Contents</strong></summary>
+  <ol>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#key-features">Key Features</a></li>
+    <li><a href="#tech-stack">Tech Stack</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#firebase-setup">Firebase Setup</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
 ---
 
-**Built with ❤️ using React, TypeScript, and Firebase**
-# Collab-Flow
+## 🌟 About The Project
+
+**CollabFlow** is more than just a Kanban board; it's a synchronous collaboration platform built to aid remote teams in managing tasks efficiently. In an era where distributed work is the norm, CollabFlow enables teams to stay aligned without the friction of constant status meetings.
+
+We focused on three core pillars during development:
+
+- **Speed**: Instant updates across all clients. No refreshing required.
+- **Simplicity**: A clean, intuitive interface that doesn't overwhelm the user.
+- **Scalability**: Built on Firebase to handle teams of any size.
+
+Whether you are a solo developer tracking personal projects or a startup team managing your sprint, CollabFlow provides the structure you need.
+
+---
+
+## 🚀 Key Features
+
+### ✅ Core Functionality (Implemented)
+
+#### 📋 Interactive Kanban Board
+
+- **Drag & Drop Interface**: Smooth, accessible drag-and-drop actions powered by `@dnd-kit` allows you to move tasks between stages effortlessly.
+- **Dynamic Columns**: Create custom workflows. Add columns like "Backlog," "Development," "Testing," and "Deployed" to match your team's process.
+- **Visual Organization**: Color-coded columns and tags help visual learners grasp the state of the project instantly.
+
+#### ⚡ Real-Time Synchronization
+
+- **Instant Updates**: Powered by Cloud Firestore's real-time listeners. When a teammate moves a card, you see it move instantly on your screen.
+- **Optimistic UI**: Interactions feel immediate, with background syncing handling the data persistence ensuring a lag-free experience.
+
+#### 🔐 Secure Authentication & User Management
+
+- **Multiple Sign-In Methods**: Support for Email/Password and Google OAuth via Firebase Authentication.
+- **Persistent Sessions**: Users stay logged in, and their state is protected across page reloads.
+- **Role-Based Access**: Granular control over who can create boards vs. who can just edit tasks (Admin/Member roles).
+
+#### 📝 Task Details & Management
+
+- **Rich Task Modals**: Click any task to view comprehensive details.
+- **Checklists**: Break down complex tasks into sub-tasks with progress bars.
+- **Priority Levels**: Set Low, Medium, or High priorities with distinct visual indicators.
+- **Due Dates**: Set deadlines and get visual warnings when tasks are overdue or approaching due date.
+- **Tagging System**: Organize tasks by category, feature, or team using customizable tags.
+
+### 🚧 Upcoming Features (Roadmap)
+
+- **Team Chat**: Integrated per-board chat rooms.
+- **Analytics Dashboard**: Velocity charts and burndown metrics.
+- **Activity Logs**: A history of who did what and when.
+- **Attachment Support**: Drag & drop file uploads to tasks.
+
+---
+
+## 🛠️ Tech Stack
+
+This project uses the best-in-class tools for modern React development.
+
+| Technology           | Purpose                                              |
+| :------------------- | :--------------------------------------------------- |
+| **react** (v18+)     | UI Library with Hooks & Functional Components        |
+| **typescript**       | Static Type Checking for robust code                 |
+| **vite**             | Next Generation Frontend Tooling (Super fast builds) |
+| **firebase**         | Backend-as-a-Service (Auth, Firestore, Hosting)      |
+| **tailwindcss**      | Utility-first CSS framework for styling              |
+| **@dnd-kit**         | Lightweight & accessible drag-and-drop toolkit       |
+| **lucide-react**     | Beautiful & consistent icon set                      |
+| **react-router-dom** | Client-side routing                                  |
+| **react-hot-toast**  | Elegant toast notifications                          |
+
+---
+
+## 📂 Folder Structure
+
+A quick look at the top-level files and directories you'll see in this project.
+
+```
+CollabFlow/
+├── .github/             # GitHub Actions workflows
+├── node_modules/        # Project dependencies
+├── public/              # Static assets (favicons, images)
+├── src/
+│   ├── assets/          # SVG assets and global styles
+│   ├── components/
+│   │   ├── Auth/        # Authentication forms (Login, Signup)
+│   │   ├── Board/       # Complex Kanban board components
+│   │   ├── Chat/        # Chat interface components
+│   │   ├── Common/      # Reusable UI atoms (Buttons, Icons)
+│   │   └── Layout/      # Main app dashboard layout
+│   ├── contexts/        # React Contexts (Auth, Board, Theme)
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Firebase configuration
+│   ├── pages/           # High-level page views (Analytics, Settings)
+│   ├── types/           # TypeScript interface definitions
+│   ├── utils/           # Helper functions
+│   ├── App.tsx          # Main application component
+│   └── main.tsx         # Entry point
+├── .env                 # Environment variables (git-ignored)
+├── .env.example         # Example environment variables
+├── .firebaserc          # Firebase project aliases
+├── firestore.rules      # Firestore security rules
+├── storage.rules        # Storage security rules
+├── index.html           # HTML entry point
+├── package.json         # Project metadata and scripts
+├── tailwind.config.cjs  # Tailwind CSS configuration
+├── tsconfig.json        # TypeScript configuration
+└── vite.config.ts       # Vite bundler configuration
+```
+
+---
+
+## 🏁 Getting Started
+
+Follow these instructions to set up your development environment.
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- **Node.js** (v18.0.0 or higher)
+- **npm** (v9.0.0 or higher) or **yarn**
+- **Git**
+
+### Installation
+
+1.  **Clone the Repository**
+
+    ```bash
+    git clone https://github.com/Md-Arif-hasnat99/Collab-Flow.git
+    cd CollabFlow
+    ```
+
+2.  **Install Dependencies**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Setup**
+    Create a `.env` file in the root directory by copying the example:
+    ```bash
+    cp .env.example .env
+    ```
+
+### 🔥 Firebase Setup
+
+To run this app, you need your own Firebase project.
+
+1.  Go to [Firebase Console](https://console.firebase.google.com/) and create a new project.
+2.  **Authentication**: Enable **Email/Password** and **Google** providers in the Authentication menu.
+3.  **Firestore**: Create a Firestore database (Start in Test Mode for development).
+4.  **Configuration**: Go to Project Settings > General > "Your apps" > Web App. Copy the config values and update your `.env` file:
+
+    ```env
+    VITE_FIREBASE_API_KEY=AIzaSy...
+    VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+    VITE_FIREBASE_PROJECT_ID=your-project-id
+    VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+    VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+    VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
+    VITE_FIREBASE_DATABASE_URL=https://your-project-default-rtdb.firebaseio.com
+    ```
+
+5.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
+
+---
+
+## 💡 Usage
+
+### Creating a Workspace
+
+1.  **Register a new account.** You will be logged in immediately.
+2.  **Create a Board.** From the sidebar, click the `+` icon to add a new project board.
+3.  **Define Columns.** By default, new boards can come with presets, or you can manually add "To Do", "In Progress", etc.
+
+### Managing Tasks
+
+- **Add Task**: Click the "+ Add Task" button at the bottom of any column.
+- **Edit Task**: Click on the card to open the modal. Here you can add descriptions, change priority, add due dates, or create sub-tasks.
+- **Move Task**: Simply drag the card to another column to change its status.
+
+---
+
+## 🛣️ Roadmap
+
+- [x] **Phase 1: Foundation**
+
+  - [x] Project Setup (Vite + TS)
+  - [x] Firebase Integration
+  - [x] Authentication & Authorization
+
+- [x] **Phase 2: Core Features**
+
+  - [x] Kanban Board Implementation
+  - [x] Drag & Drop Functionality
+  - [x] Task CRUD & Details
+  - [x] Real-time Sync
+
+- [ ] **Phase 3: Collaboration & Social**
+
+  - [ ] Real-time Presence (Who is viewing this board?)
+  - [ ] In-app Chat System
+  - [ ] Comments on Tasks
+
+- [ ] **Phase 4: Advanced Features**
+  - [ ] Dark Mode Polish
+  - [ ] Analytics & Reporting
+  - [ ] Export to PDF/CSV
+
+See the [open issues](https://github.com/Md-Arif-hasnat99/Collab-Flow/issues) for a full list of proposed features.
+
+---
+
+## 🤝 Contributing
+
+Contributions are an essential part of the open source community. We welcome all contributions!
+
+1.  **Fork** the repo on GitHub.
+2.  **Clone** the project to your own machine.
+3.  **Commit** changes to your own branch.
+4.  **Push** your work back to your fork.
+5.  Submit a **Pull Request** so that we can review your changes.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+## 📞 Contact
+
+**Project Link**: [https://github.com/Md-Arif-hasnat99/Collab-Flow](https://github.com/Md-Arif-hasnat99/Collab-Flow)
+
+<br />
+<div align="center">
+  <p>If you like this project, please verify give it a ⭐️ star on GitHub!</p>
+</div>
