@@ -1,5 +1,5 @@
-import { supabase } from '../../lib/supabase/client';
-import type { Profile, Workspace, WorkspaceInvitation } from '../../types/database.types';
+import { supabase } from '../../../lib/supabase/client';
+import type { Profile, Workspace, WorkspaceInvitation } from '../../../types/database.types';
 
 // ── Authentication ───────────────────────────────────────────────
 
@@ -92,7 +92,7 @@ export async function createWorkspace(name: string, description?: string): Promi
   const slug = slugData as string;
 
   const { data: workspace, error: wsError } = await supabase
-    .from('workspaces')
+    .from('workspaces' as any)
     .insert({ name, slug, description: description || null, created_by: user.id })
     .select()
     .single();
@@ -100,13 +100,13 @@ export async function createWorkspace(name: string, description?: string): Promi
 
   // Creator becomes OWNER
   const { error: memberError } = await supabase
-    .from('workspace_members')
+    .from('workspace_members' as any)
     .insert({ workspace_id: workspace.id, user_id: user.id, role: 'OWNER' });
   if (memberError) throw memberError;
 
   // Create default chat channel
   const { data: channel, error: channelError } = await supabase
-    .from('chat_channels')
+    .from('chat_channels' as any)
     .insert({
       workspace_id: workspace.id,
       name: 'general',
@@ -117,7 +117,7 @@ export async function createWorkspace(name: string, description?: string): Promi
     .select()
     .single();
   if (!channelError && channel) {
-    await supabase.from('chat_members').insert({
+    await supabase.from('chat_members' as any).insert({
       channel_id: channel.id,
       user_id: user.id,
     });
@@ -130,7 +130,7 @@ export async function createWorkspace(name: string, description?: string): Promi
 
 export async function getInvitationByToken(token: string): Promise<WorkspaceInvitation | null> {
   const { data, error } = await supabase
-    .from('workspace_invitations')
+    .from('workspace_invitations' as any)
     .select('*, workspace:workspaces(name, logo_url), inviter:profiles!invited_by(full_name, avatar_url)')
     .eq('token', token)
     .eq('status', 'PENDING')
@@ -155,7 +155,7 @@ export async function sendInvitation(
   if (!user) throw new Error('Not authenticated');
 
   const { data, error } = await supabase
-    .from('workspace_invitations')
+    .from('workspace_invitations' as any)
     .insert({
       workspace_id: workspaceId,
       invited_by: user.id,
@@ -172,7 +172,7 @@ export async function sendInvitation(
 // ── Get user's workspaces ────────────────────────────────────────
 export async function getUserWorkspaces() {
   const { data, error } = await supabase
-    .from('workspace_members')
+    .from('workspace_members' as any)
     .select('role, workspace:workspaces(*)')
     .order('joined_at', { ascending: true });
   if (error) throw error;

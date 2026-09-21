@@ -1,11 +1,9 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import type { ReactNode } from 'react';
-import type { User, Session } from '@supabase/supabase-js';
-import { supabase } from '../../lib/supabase/client';
-import { getProfile } from '../auth/services/auth.service';
-import type { Profile, Workspace, WorkspaceRole } from '../../types/database.types';
-import { createPermissionChecker, type Permission } from '../../lib/permissions';
-import type { WorkspaceRole as PermRole } from '../../lib/permissions';
+import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react';
+import type { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
+import { supabase } from '../../../lib/supabase/client';
+import { getProfile } from '../services/auth.service';
+import type { Profile, Workspace, WorkspaceRole } from '../../../types/database.types';
+import { createPermissionChecker, type Permission, type WorkspaceRole as PermRole } from '../../../lib/permissions';
 
 interface AuthContextValue {
   user: User | null;
@@ -61,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (_event: AuthChangeEvent, session: Session | null) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {

@@ -2,10 +2,10 @@ import { useAuth } from '../auth/hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase/client';
 import { format } from 'date-fns';
-import { ArrowRight, Plus, Users, FolderOpen, CheckSquare, TrendingUp, AlertCircle, RefreshCw } from 'lucide-react';
+import { ArrowRight, Plus, Users, FolderOpen, CheckSquare, TrendingUp, AlertCircle, RefreshCw, Activity as ActivityIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { timeAgo, cn } from '../../lib/utils';
-import type { Activity, Task } from '../../types/database.types';
+import type { Activity as DBActivity, Task } from '../../types/database.types';
 
 // ── Metric Card ───────────────────────────────────────────────────
 function MetricCard({ label, value, sub }: { label: string; value: string | number; sub?: string }) {
@@ -127,7 +127,7 @@ export default function OwnerDashboard() {
         .order('created_at', { ascending: false })
         .limit(8);
       if (error) throw error;
-      return data as Activity[];
+      return data as DBActivity[];
     },
     enabled: !!workspaceId,
   });
@@ -151,7 +151,7 @@ export default function OwnerDashboard() {
     enabled: !!workspaceId,
   });
 
-  const activityLabel = (a: Activity) => {
+  const activityLabel = (a: DBActivity) => {
     const meta = a.meta as Record<string, string>;
     switch (a.type) {
       case 'TASK_CREATED': return `created task "${meta.title}"`;
@@ -199,9 +199,9 @@ export default function OwnerDashboard() {
               </div>
             )}
             {!activitiesLoading && (!activities || activities.length === 0) && (
-              <EmptyState icon={Activity} title="NO ACTIVITY YET." desc="Actions in your workspace will appear here." />
+              <EmptyState icon={ActivityIcon} title="NO ACTIVITY YET." desc="Actions in your workspace will appear here." />
             )}
-            {activities?.map(a => {
+            {activities?.map((a: DBActivity) => {
               const actor = a.actor as { full_name: string; avatar_url: string | null } | null;
               return (
                 <div key={a.id} className="flex items-start gap-3 p-4 hover:bg-muted transition-colors">
