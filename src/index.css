@@ -1,114 +1,341 @@
+/* ═══════════════════════════════════════════════════════════════
+   CollabFlow — Global CSS
+   Design System: Minimal Brutalism + Modern SaaS Usability
+   Ref: design.md §3–§10
+═══════════════════════════════════════════════════════════════ */
+
+/* Google Fonts — Space Grotesk (display) + Inter (body) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── CSS Custom Properties (design.md §4) ─────────────────────── */
 @layer base {
+  :root {
+    --color-bg:         #F7F7F5;
+    --color-surface:    #FFFFFF;
+    --color-muted:      #EAEAE6;
+    --color-border:     #171717;
+    --color-border-lt:  #D1D1CE;
+    --color-text:       #111111;
+    --color-text-sec:   #5A5A5A;
+    --color-text-muted: #777777;
+    --color-accent:     #FF6B35;
+    --color-accent-hover: #E85A25;
+    --color-accent-light: #FFF0EB;
+    --radius-sm:        2px;
+    --radius-md:        4px;
+    --radius-lg:        6px;
+    --radius-xl:        8px;
+    --shadow-brutal:    0 2px 0 #171717;
+    --shadow-brutal-sm: 0 1px 0 #171717;
+    --shadow-brutal-lg: 0 4px 0 #171717;
+  }
+
+  .dark {
+    --color-bg:         #0F0F0E;
+    --color-surface:    #1A1A18;
+    --color-muted:      #252522;
+    --color-border:     #2E2E2B;
+    --color-border-lt:  #3A3A37;
+    --color-text:       #F0F0EE;
+    --color-text-sec:   #A0A09E;
+    --color-text-muted: #707070;
+    --color-accent:     #FF6B35;
+    --color-accent-hover: #FF8050;
+    --color-accent-light: #2A1A12;
+    --shadow-brutal:    0 2px 0 #F0F0EE;
+    --shadow-brutal-sm: 0 1px 0 #F0F0EE;
+    --shadow-brutal-lg: 0 4px 0 #F0F0EE;
+  }
+}
+
+/* ── Base Styles ──────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-secondary-50 text-secondary-900 font-sans antialiased dark:bg-secondary-950 dark:text-secondary-50;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Typography — headings use display font (design.md §5) */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  /* Focus — high-contrast, accessible */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Selection */
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-lt);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
   }
 }
 
+/* ── Component Classes (design.md §9, §32) ───────────────────── */
 @layer components {
-  /* Custom scrollbar styles */
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
 
-  .scrollbar-thin::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply bg-secondary-300 dark:bg-secondary-700 rounded-full hover:bg-secondary-400 dark:hover:bg-secondary-600;
-  }
-
-  /* Card styles */
-  .card {
-    @apply bg-white dark:bg-secondary-900 rounded-xl shadow-sm border border-secondary-200 dark:border-secondary-800 p-6;
-  }
-
-  .card-hover {
-    @apply card transition-all duration-200 hover:shadow-md hover:border-primary-300 dark:hover:border-primary-700;
-  }
-
-  /* Button styles */
-  .btn {
-    @apply px-4 py-2.5 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-secondary-900 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
+  /* ─ Buttons ─────────────────────────────────────────────────── */
+  /* Primary — accent fill + dark border (design.md §9) */
   .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm hover:shadow;
+    @apply inline-flex items-center justify-center gap-2
+           px-5 py-2.5
+           bg-accent text-white
+           border-2 border-border
+           rounded shadow-brutal
+           font-display font-semibold text-sm tracking-wide
+           transition-all duration-150
+           hover:-translate-y-0.5 hover:shadow-brutal-lg hover:bg-accent-hover
+           active:translate-y-0 active:shadow-brutal-sm
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none
+           focus-visible:outline-2 focus-visible:outline-accent;
   }
 
+  /* Secondary — transparent + dark border (design.md §9) */
   .btn-secondary {
-    @apply btn bg-white dark:bg-secondary-800 text-secondary-700 dark:text-secondary-200 border border-secondary-300 dark:border-secondary-700 hover:bg-secondary-50 dark:hover:bg-secondary-700 focus:ring-secondary-400;
+    @apply inline-flex items-center justify-center gap-2
+           px-5 py-2.5
+           bg-surface text-ink
+           border-2 border-border
+           rounded shadow-brutal-sm
+           font-display font-semibold text-sm tracking-wide
+           transition-all duration-150
+           hover:-translate-y-0.5 hover:shadow-brutal hover:bg-muted
+           active:translate-y-0
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none
+           dark:bg-dark-surface dark:text-dark-text dark:border-dark-border;
   }
 
-  .btn-success {
-    @apply btn bg-success-600 text-white hover:bg-success-700 focus:ring-success-500;
+  /* Ghost */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2
+           bg-transparent text-ink
+           border border-transparent
+           rounded
+           font-sans font-medium text-sm
+           transition-colors duration-150
+           hover:bg-muted hover:border-border-light
+           disabled:opacity-40 disabled:cursor-not-allowed
+           dark:text-dark-text dark:hover:bg-dark-muted;
   }
 
+  /* Icon button */
+  .btn-icon {
+    @apply inline-flex items-center justify-center
+           w-9 h-9
+           bg-transparent text-ink-secondary
+           border border-transparent
+           rounded
+           transition-colors duration-150
+           hover:bg-muted hover:text-ink hover:border-border-light
+           dark:text-dark-text-sec dark:hover:bg-dark-muted dark:hover:text-dark-text;
+  }
+
+  /* Danger */
   .btn-danger {
-    @apply btn bg-danger-600 text-white hover:bg-danger-700 focus:ring-danger-500;
+    @apply inline-flex items-center justify-center gap-2
+           px-5 py-2.5
+           bg-danger text-white
+           border-2 border-border
+           rounded shadow-brutal
+           font-display font-semibold text-sm
+           transition-all duration-150
+           hover:-translate-y-0.5 hover:shadow-brutal-lg
+           disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
-  /* Input styles */
-  .input {
-    @apply w-full px-3 py-2.5 border border-secondary-300 dark:border-secondary-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all bg-white dark:bg-secondary-900 text-secondary-900 dark:text-white placeholder:text-secondary-400;
+  /* ─ Inputs ──────────────────────────────────────────────────── */
+  .cf-input {
+    @apply w-full px-3 py-2.5
+           bg-surface text-ink
+           border-2 border-border-light
+           rounded
+           font-sans text-sm
+           placeholder:text-ink-muted
+           transition-colors duration-150
+           focus:border-border focus:outline-none
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-muted
+           dark:bg-dark-surface dark:text-dark-text dark:border-dark-border dark:focus:border-dark-border-light;
   }
 
-  /* Badge styles */
-  .badge {
-    @apply px-2.5 py-0.5 text-xs font-semibold rounded-full border;
+  .cf-label {
+    @apply block text-label text-ink-secondary mb-1.5
+           font-display tracking-widest uppercase
+           dark:text-dark-text-sec;
   }
 
-  .badge-primary {
-    @apply badge bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 border-primary-200 dark:border-primary-800;
+  .cf-select {
+    @apply cf-input appearance-none cursor-pointer;
   }
 
-  .badge-success {
-    @apply badge bg-success-50 dark:bg-success-900/30 text-success-700 dark:text-success-400 border-success-200 dark:border-success-800;
+  .cf-textarea {
+    @apply cf-input resize-none min-h-24;
   }
 
-  .badge-warning {
-    @apply badge bg-warning-50 dark:bg-warning-900/30 text-warning-700 dark:text-warning-400 border-warning-200 dark:border-warning-800;
+  /* ─ Cards ───────────────────────────────────────────────────── */
+  /* design.md §7 — strong borders, minimal radius */
+  .cf-card {
+    @apply bg-surface border-2 border-border rounded p-5
+           dark:bg-dark-surface dark:border-dark-border;
   }
 
-  .badge-danger {
-    @apply badge bg-danger-50 dark:bg-danger-900/30 text-danger-700 dark:text-danger-400 border-danger-200 dark:border-danger-800;
+  .cf-card-hover {
+    @apply cf-card transition-all duration-150
+           hover:shadow-brutal hover:-translate-y-0.5 cursor-pointer;
   }
 
-  /* Priority badges */
-  .priority-low {
-    @apply badge bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 border-secondary-200 dark:border-secondary-700;
+  .cf-card-flat {
+    @apply bg-surface border border-border-light rounded p-5
+           dark:bg-dark-surface dark:border-dark-border;
   }
 
-  .priority-medium {
-    @apply badge bg-warning-50 dark:bg-warning-900/30 text-warning-700 dark:text-warning-400 border-warning-200 dark:border-warning-800;
+  /* ─ Badges ──────────────────────────────────────────────────── */
+  .cf-badge {
+    @apply inline-flex items-center px-2 py-0.5
+           text-meta font-display font-semibold tracking-wide uppercase
+           border rounded-sm;
   }
 
-  .priority-high {
-    @apply badge bg-danger-50 dark:bg-danger-900/30 text-danger-700 dark:text-danger-400 border-danger-200 dark:border-danger-800;
+  .badge-default   { @apply cf-badge bg-muted text-ink-secondary border-border-light dark:bg-dark-muted dark:text-dark-text-sec dark:border-dark-border; }
+  .badge-accent    { @apply cf-badge bg-accent-light text-accent border-accent; }
+  .badge-success   { @apply cf-badge bg-success-light text-success border-success-border; }
+  .badge-warning   { @apply cf-badge bg-warning-light text-warning border-warning-border; }
+  .badge-danger    { @apply cf-badge bg-danger-light text-danger border-danger-border; }
+
+  /* ─ Priority Badges ─────────────────────────────────────────── */
+  .priority-low    { @apply badge-default; }
+  .priority-medium { @apply badge-warning; }
+  .priority-high   { @apply badge-danger; }
+  .priority-urgent { @apply cf-badge bg-danger text-white border-danger; }
+
+  /* ─ Status Badges ───────────────────────────────────────────── */
+  .status-backlog    { @apply badge-default; }
+  .status-todo       { @apply cf-badge bg-info-light text-info border-info-border; }
+  .status-in-progress { @apply badge-warning; }
+  .status-review     { @apply cf-badge bg-accent-light text-accent border-accent; }
+  .status-done       { @apply badge-success; }
+
+  /* ─ Section Headers (brutalist editorial) ───────────────────── */
+  .section-label {
+    @apply text-label text-ink-muted font-display tracking-widest uppercase
+           border-b-2 border-border pb-2 mb-6
+           dark:text-dark-text-muted dark:border-dark-border;
   }
 
-  /* Glassmorphism effect - Modern clean version (No Blur) */
-  .glass {
-    @apply bg-white/95 dark:bg-secondary-900/95 border border-secondary-200/50 dark:border-secondary-800/50 shadow-sm;
+  /* ─ Dividers ────────────────────────────────────────────────── */
+  .cf-divider {
+    @apply border-t-2 border-border dark:border-dark-border;
+  }
+  .cf-divider-light {
+    @apply border-t border-border-muted dark:border-dark-border;
   }
 
-  /* Animation utilities */
-  .animate-in {
-    animation: slideIn 0.3s ease-out;
+  /* ─ Nav Item (sidebar) ──────────────────────────────────────── */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2
+           text-body text-ink-secondary font-sans font-medium
+           rounded transition-colors duration-100
+           hover:bg-muted hover:text-ink
+           dark:text-dark-text-sec dark:hover:bg-dark-muted dark:hover:text-dark-text;
   }
 
-  .fade-in {
-    animation: fadeIn 0.2s ease-out;
+  .nav-item-active {
+    @apply nav-item bg-accent-light text-accent font-semibold
+           dark:bg-accent/10 dark:text-accent;
+  }
+
+  /* ─ Empty State ─────────────────────────────────────────────── */
+  .cf-empty {
+    @apply flex flex-col items-center justify-center gap-4
+           py-16 px-8 text-center;
+  }
+
+  /* ─ Skeleton ────────────────────────────────────────────────── */
+  .cf-skeleton {
+    @apply bg-muted rounded animate-pulse
+           dark:bg-dark-muted;
+  }
+
+  /* ─ Progress Bar ────────────────────────────────────────────── */
+  .cf-progress {
+    @apply w-full h-1.5 bg-muted rounded-sm overflow-hidden
+           dark:bg-dark-muted;
+  }
+  .cf-progress-fill {
+    @apply h-full bg-accent rounded-sm transition-all duration-500;
+  }
+
+  /* ─ Scrollbar utilities ─────────────────────────────────────── */
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-border-lt);
+    border-radius: 2px;
   }
 }
 
+/* ── Utilities ────────────────────────────────────────────────── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .text-balance { text-wrap: balance; }
+
+  /* design.md §30 — reduced motion compliance */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Horizontal scroll for Kanban */
+  .kanban-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+  }
+  .kanban-scroll > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* Full bleed section */
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
   }
 }
