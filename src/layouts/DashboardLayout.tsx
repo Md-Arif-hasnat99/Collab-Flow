@@ -14,10 +14,8 @@ import NotificationDropdown from '../features/notifications/components/Notificat
 // ── Navigation items ─────────────────────────────────────────────
 const NAV = [
   {
-    section: 'WORKSPACE',
     items: [
-      { label: 'Overview', href: '/app/dashboard', icon: LayoutDashboard },
-      { label: 'My Tasks',  href: '/app/tasks',    icon: CheckSquare },
+      { label: 'My Tasks',  href: '/app/tasks',     icon: CheckSquare },
       { label: 'Projects',  href: '/app/projects',  icon: FolderOpen },
       { label: 'Boards',    href: '/app/boards',    icon: Kanban },
     ],
