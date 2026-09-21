@@ -3,7 +3,22 @@ import { lazy, Suspense } from 'react';
 import { useAuth } from '../features/auth/hooks/useAuth';
 
 // ── Lazy-loaded pages ─────────────────────────────────────────────
+const PublicLayout      = lazy(() => import('../layouts/PublicLayout'));
 const LandingPage       = lazy(() => import('../features/landing/LandingPage'));
+const FeaturesPage      = lazy(() => import('../features/public/pages/FeaturesPage'));
+const HowItWorksPage    = lazy(() => import('../features/public/pages/HowItWorksPage'));
+const AnalyticsInfoPage = lazy(() => import('../features/public/pages/AnalyticsInfoPage'));
+const PricingPage       = lazy(() => import('../features/public/pages/PricingPage'));
+const AboutPage         = lazy(() => import('../features/public/pages/AboutPage'));
+const ContactPage       = lazy(() => import('../features/public/pages/ContactPage'));
+const BlogPage          = lazy(() => import('../features/public/pages/BlogPage'));
+const BlogPostPage      = lazy(() => import('../features/public/pages/BlogPostPage'));
+const CareersPage       = lazy(() => import('../features/public/pages/CareersPage'));
+const DocumentationPage = lazy(() => import('../features/public/pages/DocumentationPage'));
+const PrivacyPage       = lazy(() => import('../features/public/pages/PrivacyPage'));
+const TermsPage         = lazy(() => import('../features/public/pages/TermsPage'));
+const StatusPage        = lazy(() => import('../features/public/pages/StatusPage'));
+
 const LoginModal        = lazy(() => import('../features/auth/components/LoginModal'));
 const SignupModal       = lazy(() => import('../features/auth/components/SignupModal'));
 const InvitePage        = lazy(() => import('../features/auth/pages/InvitePage'));
@@ -55,11 +70,26 @@ export function AppRouter() {
     <BrowserRouter>
       <Suspense fallback={<PageLoader />}>
         <Routes>
-          {/* ── Public Routes ──────────────────────────────── */}
-          <Route path="/" element={<LandingPage />}>
-            {/* Modal routes rendered over landing */}
-            <Route path="auth/login"  element={<LoginModal />} />
-            <Route path="auth/signup" element={<SignupModal />} />
+          {/* ── Public Layout Routes ────────────────────────── */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />}>
+              {/* Modal routes rendered over landing */}
+              <Route path="auth/login"  element={<LoginModal />} />
+              <Route path="auth/signup" element={<SignupModal />} />
+            </Route>
+            <Route path="features"        element={<FeaturesPage />} />
+            <Route path="how-it-works"    element={<HowItWorksPage />} />
+            <Route path="analytics-info"  element={<AnalyticsInfoPage />} />
+            <Route path="pricing"         element={<PricingPage />} />
+            <Route path="about"           element={<AboutPage />} />
+            <Route path="contact"         element={<ContactPage />} />
+            <Route path="blog"            element={<BlogPage />} />
+            <Route path="blog/:slug"      element={<BlogPostPage />} />
+            <Route path="careers"         element={<CareersPage />} />
+            <Route path="documentation"   element={<DocumentationPage />} />
+            <Route path="privacy"         element={<PrivacyPage />} />
+            <Route path="terms"           element={<TermsPage />} />
+            <Route path="status"          element={<StatusPage />} />
           </Route>
 
           {/* ── Invitation (public, but needs auth to accept) */}

@@ -1,101 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { Menu, X, ArrowRight, CheckSquare, Users, BarChart3, MessageSquare, Zap, Activity, ChevronRight } from 'lucide-react';
-import { useAuth } from '../auth/hooks/useAuth';
+import { Link, Outlet } from 'react-router-dom';
+import { ArrowRight, CheckSquare, Users, BarChart3, MessageSquare, Zap, Activity, ChevronRight } from 'lucide-react';
 
-// ── Navbar ───────────────────────────────────────────────────────
-function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate();
-  const { user } = useAuth();
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-background border-b-2 border-border transition-shadow duration-150 ${scrolled ? 'shadow-card' : ''}`}
-    >
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-7 h-7 bg-accent border-2 border-border flex items-center justify-center rounded-sm">
-              <span className="text-white font-display font-bold text-xs">CF</span>
-            </div>
-            <span className="font-display font-bold text-body-lg text-ink tracking-tight">COLLABFLOW</span>
-          </Link>
-
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {['Features', 'How It Works', 'Analytics', 'About'].map(item => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-meta font-display font-semibold tracking-widest uppercase text-ink-secondary hover:text-ink transition-colors"
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
-
-          {/* CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            {user ? (
-              <Link to="/app/dashboard" className="btn-primary text-sm px-4 py-2">
-                Go to App <ArrowRight size={14} />
-              </Link>
-            ) : (
-              <>
-                <Link to="/auth/login" className="btn-ghost text-sm">LOGIN</Link>
-                <Link to="/auth/signup" className="btn-primary text-sm px-4 py-2">
-                  GET STARTED <ArrowRight size={14} />
-                </Link>
-              </>
-            )}
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden btn-icon"
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden border-t-2 border-border bg-background animate-slide-in-top">
-          <div className="px-6 py-4 flex flex-col gap-4">
-            {['Features', 'How It Works', 'Analytics', 'About'].map(item => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-body font-display font-semibold tracking-widest uppercase text-ink-secondary hover:text-ink"
-                onClick={() => setOpen(false)}
-              >
-                {item}
-              </a>
-            ))}
-            <div className="pt-4 border-t-2 border-border flex flex-col gap-3">
-              <Link to="/auth/login" className="btn-secondary text-center" onClick={() => setOpen(false)}>LOGIN</Link>
-              <Link to="/auth/signup" className="btn-primary text-center" onClick={() => setOpen(false)}>
-                GET STARTED <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-}
 
 // ── App Preview (realistic mock) ─────────────────────────────────
 function AppPreview() {
@@ -252,17 +157,13 @@ const ROLES = [
 
 // ── Main Landing Page ─────────────────────────────────────────────
 export default function LandingPage() {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-
       {/* Modal routes render here (login/signup over landing) */}
       <Outlet />
 
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="pt-36 pb-16 lg:pt-44 lg:pb-24 px-6 lg:px-12 max-w-[1400px] mx-auto">
+      <section className="pt-20 pb-16 lg:pt-28 lg:pb-24 px-6 lg:px-12 max-w-[1400px] mx-auto">
         <div className="max-w-4xl">
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 border-2 border-border px-3 py-1 rounded-sm mb-8">
@@ -493,59 +394,6 @@ export default function LandingPage() {
           </Link>
         </div>
       </section>
-
-      {/* ── Footer ────────────────────────────────────────────── */}
-      <footer className="bg-ink text-surface py-16 px-6 lg:px-12 border-t-2 border-border">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-            {/* Brand */}
-            <div className="col-span-2 lg:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 bg-accent border-2 border-surface/20 flex items-center justify-center rounded-sm">
-                  <span className="text-white font-display font-bold text-xs">CF</span>
-                </div>
-                <span className="font-display font-bold text-surface tracking-tight">COLLABFLOW</span>
-              </div>
-              <p className="text-meta text-surface/50 leading-relaxed">
-                Real-time team collaboration and project management.
-              </p>
-            </div>
-
-            {[
-              {
-                heading: 'Product',
-                links: ['Features', 'How it works', 'Analytics', 'Pricing'],
-              },
-              {
-                heading: 'Company',
-                links: ['About', 'Contact', 'Blog', 'Careers'],
-              },
-              {
-                heading: 'Resources',
-                links: ['Documentation', 'Privacy', 'Terms', 'Status'],
-              },
-            ].map(({ heading, links }) => (
-              <div key={heading}>
-                <div className="text-label text-surface/30 mb-4">{heading.toUpperCase()}</div>
-                <ul className="flex flex-col gap-2.5">
-                  {links.map(link => (
-                    <li key={link}>
-                      <a href="#" className="text-body text-surface/60 hover:text-surface transition-colors">
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="pt-8 border-t border-surface/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-meta text-surface/30">© 2026 CollabFlow. All rights reserved.</p>
-            <p className="text-meta text-surface/30">Built for teams that care about the work.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
