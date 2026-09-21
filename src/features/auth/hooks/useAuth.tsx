@@ -113,7 +113,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setProfile(null);
           setCurrentWorkspaceState(null);
           setCurrentRole(null);
-          localStorage.removeItem('cf_workspace_id');
         }
         setLoading(false);
       }
