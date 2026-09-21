@@ -71,7 +71,7 @@ function Sidebar({ collapsed, onClose }: { collapsed?: boolean; onClose?: () => 
   const handleLogout = async () => {
     try {
       await signOut();
-      navigate('/');
+      navigate('/auth/login');
     } catch {
       toast.error('Failed to sign out');
     }
