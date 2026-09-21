@@ -79,7 +79,7 @@ CREATE POLICY "profiles_update_own"
 
 -- ── workspaces ──────────────────────────────────────────────────
 CREATE POLICY "workspaces_read"
-  ON workspaces FOR SELECT USING (is_workspace_member(id));
+  ON workspaces FOR SELECT USING (is_workspace_member(id) OR created_by = auth.uid());
 CREATE POLICY "workspaces_update"
   ON workspaces FOR UPDATE USING (is_workspace_admin(id));
 CREATE POLICY "workspaces_delete"
@@ -91,7 +91,14 @@ CREATE POLICY "workspaces_insert"
 CREATE POLICY "wm_read"
   ON workspace_members FOR SELECT USING (is_workspace_member(workspace_id));
 CREATE POLICY "wm_insert"
-  ON workspace_members FOR INSERT WITH CHECK (is_workspace_admin(workspace_id));
+  ON workspace_members FOR INSERT WITH CHECK (
+    is_workspace_admin(workspace_id)
+    OR (
+      EXISTS (SELECT 1 FROM workspaces WHERE id = workspace_id AND created_by = auth.uid())
+      AND user_id = auth.uid()
+      AND role = 'OWNER'
+    )
+  );
 CREATE POLICY "wm_update"
   ON workspace_members FOR UPDATE USING (is_workspace_admin(workspace_id));
 CREATE POLICY "wm_delete"

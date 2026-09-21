@@ -136,7 +136,7 @@
            hover:-translate-y-0.5 hover:shadow-brutal hover:bg-muted
            active:translate-y-0
            disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none
-           dark:bg-dark-surface dark:text-dark-text dark:border-dark-border;
+           dark:bg-dark-surface dark:text-white dark:border-dark-border;
   }
 
   /* Ghost */
@@ -150,7 +150,7 @@
            transition-colors duration-150
            hover:bg-muted hover:border-border-light
            disabled:opacity-40 disabled:cursor-not-allowed
-           dark:text-dark-text dark:hover:bg-dark-muted;
+           dark:text-white dark:hover:bg-dark-muted;
   }
 
   /* Icon button */
@@ -162,7 +162,7 @@
            rounded
            transition-colors duration-150
            hover:bg-muted hover:text-ink hover:border-border-light
-           dark:text-dark-text-sec dark:hover:bg-dark-muted dark:hover:text-dark-text;
+           dark:text-gray-400 dark:hover:bg-dark-muted dark:hover:text-white;
   }
 
   /* Danger */
@@ -189,13 +189,13 @@
            transition-colors duration-150
            focus:border-border focus:outline-none
            disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-muted
-           dark:bg-dark-surface dark:text-dark-text dark:border-dark-border dark:focus:border-dark-border-light;
+           dark:bg-dark-surface dark:text-white dark:border-dark-border dark:focus:border-dark-border-light;
   }
 
   .cf-label {
     @apply block text-label text-ink-secondary mb-1.5
            font-display tracking-widest uppercase
-           dark:text-dark-text-sec;
+           dark:text-gray-400;
   }
 
   .cf-select {
@@ -230,7 +230,7 @@
            border rounded-sm;
   }
 
-  .badge-default   { @apply cf-badge bg-muted text-ink-secondary border-border-light dark:bg-dark-muted dark:text-dark-text-sec dark:border-dark-border; }
+  .badge-default   { @apply cf-badge bg-muted text-ink-secondary border-border-light dark:bg-dark-muted dark:text-gray-400 dark:border-dark-border; }
   .badge-accent    { @apply cf-badge bg-accent-light text-accent border-accent; }
   .badge-success   { @apply cf-badge bg-success-light text-success border-success-border; }
   .badge-warning   { @apply cf-badge bg-warning-light text-warning border-warning-border; }
@@ -253,7 +253,7 @@
   .section-label {
     @apply text-label text-ink-muted font-display tracking-widest uppercase
            border-b-2 border-border pb-2 mb-6
-           dark:text-dark-text-muted dark:border-dark-border;
+           dark:text-gray-500 dark:border-dark-border;
   }
 
   /* ─ Dividers ────────────────────────────────────────────────── */
@@ -270,7 +270,7 @@
            text-body text-ink-secondary font-sans font-medium
            rounded transition-colors duration-100
            hover:bg-muted hover:text-ink
-           dark:text-dark-text-sec dark:hover:bg-dark-muted dark:hover:text-dark-text;
+           dark:text-gray-400 dark:hover:bg-dark-muted dark:hover:text-white;
   }
 
   .nav-item-active {
