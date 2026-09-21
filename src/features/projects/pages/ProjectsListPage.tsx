@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { FolderOpen, Plus, Loader2, MoreVertical, LayoutGrid, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
@@ -7,6 +7,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { supabase } from '../../../lib/supabase/client';
 import { cn, stringToColor } from '../../../lib/utils';
 import type { Database } from '../../../types/database.types';
+import { CreateProjectModal } from '../components/CreateProjectModal';
 
 type Project = Database['public']['Tables']['projects']['Row'];
 
@@ -32,7 +33,9 @@ function useProjects(workspaceId?: string) {
 export default function ProjectsListPage() {
   const { currentWorkspace, can } = useAuth();
   const navigate = useNavigate();
-  const { data: projects, isLoading, error } = useProjects(currentWorkspace?.id);
+  const queryClient = useQueryClient();
+  const { data: projects, isLoading, error, refetch } = useProjects(currentWorkspace?.id);
+  const [isCreating, setIsCreating] = useState(false);
 
   if (isLoading) {
     return (
@@ -66,7 +69,7 @@ export default function ProjectsListPage() {
         </div>
 
         {can('projects.create') && (
-          <button className="btn-primary">
+          <button className="btn-primary" onClick={() => setIsCreating(true)}>
             <Plus size={18} />
             <span>NEW PROJECT</span>
           </button>
@@ -84,7 +87,7 @@ export default function ProjectsListPage() {
             Projects help you organize related Kanban boards, tasks, and files into a single workspace.
           </p>
           {can('projects.create') && (
-            <button className="btn-primary">Create your first project</button>
+            <button className="btn-primary" onClick={() => setIsCreating(true)}>Create your first project</button>
           )}
         </div>
       ) : (
@@ -102,40 +105,37 @@ export default function ProjectsListPage() {
                 
                 <div className="p-5 flex-1 flex flex-col">
                   <div className="flex items-start justify-between mb-3">
-                    <div className="w-10 h-10 rounded border-2 border-border flex items-center justify-center bg-muted">
-                      <FolderOpen size={20} className="text-ink" />
-                    </div>
-                    <button 
-                      className="btn-icon text-ink-muted hover:text-ink opacity-0 group-hover:opacity-100"
-                      onClick={(e) => { e.preventDefault(); /* Open options */ }}
-                    >
+                    <h3 className="font-display font-bold text-ink text-lg line-clamp-1">{project.name}</h3>
+                    <button className="btn-icon -mr-2 -mt-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => { e.preventDefault(); /* TODO: project menu */ }}>
                       <MoreVertical size={16} />
                     </button>
                   </div>
                   
-                  <h3 className="text-card font-display font-bold text-ink mb-2 line-clamp-1">
-                    {project.name}
-                  </h3>
-                  
-                  <p className="text-sm text-ink-secondary line-clamp-2 flex-1 mb-6">
+                  <p className="text-sm text-ink-secondary line-clamp-2 flex-1 mb-4">
                     {project.description || 'No description provided.'}
                   </p>
-
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-border-light">
-                    <div className="flex items-center gap-1.5 text-[11px] font-display tracking-widest text-ink-muted uppercase">
-                      <Calendar size={12} />
-                      {format(new Date(project.created_at), 'MMM yyyy')}
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[11px] font-display tracking-widest text-ink-muted uppercase">
-                      <LayoutGrid size={12} />
-                      Boards
-                    </div>
+                  
+                  <div className="flex items-center justify-between text-xs font-display tracking-widest text-ink-muted uppercase border-t border-border-light pt-4 mt-auto">
+                    <span className="flex items-center gap-1"><Calendar size={12} /> {format(new Date(project.created_at), 'MMM d')}</span>
+                    <span className="flex items-center gap-1 group-hover:text-accent transition-colors">
+                      <LayoutGrid size={12} /> View Boards
+                    </span>
                   </div>
                 </div>
               </Link>
             );
           })}
         </div>
+      )}
+
+      {isCreating && (
+        <CreateProjectModal
+          onClose={() => setIsCreating(false)}
+          onCreated={() => {
+            setIsCreating(false);
+            refetch();
+          }}
+        />
       )}
     </div>
   );
