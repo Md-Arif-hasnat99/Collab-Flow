@@ -43,16 +43,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
       
+      const getWorkspace = (m: any) => (Array.isArray(m.workspace) ? m.workspace[0] : m.workspace) as Workspace;
+
       const savedId = localStorage.getItem('cf_workspace_id');
-      const savedMatch = data.find((m: any) => m.workspace.id === savedId);
+      const savedMatch = data.find((m: any) => {
+        const w = getWorkspace(m);
+        return w && w.id === savedId;
+      });
       
       if (savedMatch) {
-        setCurrentWorkspaceState(savedMatch.workspace as Workspace);
+        setCurrentWorkspaceState(getWorkspace(savedMatch));
         setCurrentRole(savedMatch.role as WorkspaceRole);
       } else {
-        setCurrentWorkspaceState(data[0].workspace as Workspace);
+        const firstWorkspace = getWorkspace(data[0]);
+        setCurrentWorkspaceState(firstWorkspace);
         setCurrentRole(data[0].role as WorkspaceRole);
-        localStorage.setItem('cf_workspace_id', (data[0].workspace as Workspace).id);
+        localStorage.setItem('cf_workspace_id', firstWorkspace.id);
       }
     } catch {
       setCurrentWorkspaceState(null);
