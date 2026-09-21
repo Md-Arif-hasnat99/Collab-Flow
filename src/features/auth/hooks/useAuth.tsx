@@ -29,6 +29,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const can = createPermissionChecker(currentRole as PermRole | null);
 
+  const initWorkspace = useCallback(async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('workspace_members')
+        .select('role, workspace:workspaces(*)')
+        .eq('user_id', userId)
+        .order('joined_at', { ascending: true });
+        
+      if (error || !data || data.length === 0) {
+        setCurrentWorkspaceState(null);
+        setCurrentRole(null);
+        return;
+      }
+      
+      const savedId = localStorage.getItem('cf_workspace_id');
+      const savedMatch = data.find((m: any) => m.workspace.id === savedId);
+      
+      if (savedMatch) {
+        setCurrentWorkspaceState(savedMatch.workspace as Workspace);
+        setCurrentRole(savedMatch.role as WorkspaceRole);
+      } else {
+        setCurrentWorkspaceState(data[0].workspace as Workspace);
+        setCurrentRole(data[0].role as WorkspaceRole);
+        localStorage.setItem('cf_workspace_id', (data[0].workspace as Workspace).id);
+      }
+    } catch {
+      setCurrentWorkspaceState(null);
+      setCurrentRole(null);
+    }
+  }, []);
+
   const loadProfile = useCallback(async (userId: string) => {
     try {
       const p = await getProfile(userId);
@@ -50,10 +81,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      if (session?.user) loadProfile(session.user.id);
+      if (session?.user) {
+        await Promise.all([
+          loadProfile(session.user.id),
+          initWorkspace(session.user.id)
+        ]);
+      }
       setLoading(false);
     });
 
@@ -63,18 +99,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
-          await loadProfile(session.user.id);
+          await Promise.all([
+            loadProfile(session.user.id),
+            initWorkspace(session.user.id)
+          ]);
         } else {
           setProfile(null);
           setCurrentWorkspaceState(null);
           setCurrentRole(null);
+          localStorage.removeItem('cf_workspace_id');
         }
         setLoading(false);
       }
     );
 
     return () => subscription.unsubscribe();
-  }, [loadProfile]);
+  }, [loadProfile, initWorkspace]);
 
   return (
     <AuthContext.Provider value={{
