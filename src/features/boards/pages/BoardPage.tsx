@@ -165,12 +165,14 @@ function CreateTaskModal({
   const [priority, setPriority] = useState<Task['priority']>('MEDIUM');
   const [dueDate, setDueDate] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const { user } = useAuth();
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !user) return;
     setLoading(true);
+    setErrorMsg('');
     try {
       const { error } = await supabase.from('tasks').insert({
         title: title.trim(),
@@ -184,11 +186,15 @@ function CreateTaskModal({
         due_date: dueDate || null,
         created_by: user.id,
       });
-      if (error) throw error;
+      if (error) {
+        setErrorMsg(JSON.stringify(error, null, 2));
+        throw error;
+      }
       toast.success('Task created');
       onCreated();
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Failed to create task');
+      if (err instanceof Error) setErrorMsg(err.message);
     } finally {
       setLoading(false);
     }
@@ -204,6 +210,7 @@ function CreateTaskModal({
             <button onClick={onClose} className="btn-icon"><X size={16} /></button>
           </div>
           <form onSubmit={handleCreate} className="p-5 flex flex-col gap-4">
+            {errorMsg && <div id="error-output" className="p-3 bg-danger/10 text-danger text-sm rounded whitespace-pre-wrap font-mono">{errorMsg}</div>}
             <div>
               <label className="cf-label">Title</label>
               <input
