@@ -1,312 +1,263 @@
 # CollabFlow
 
-<div align="center">
-  <img src="public/vite.svg" alt="CollabFlow Logo" width="120" height="120" />
-  <br/>
-  <h1>CollabFlow</h1>
-  <h3>The Ultimate Remote Team Collaboration Workspace</h3>
-  <p>
-    A powerful, real-time Kanban project management tool designed to streamline workflows for distributed teams.
-    <br />
-    Built with modern web technologies for performance and scale.
-  </p>
-
-  <div align="center">
-    <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
-    <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-    <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-    <img src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase" alt="Firebase" />
-    <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
-  </div>
-  
-  <br />
-
-</div>
-
-<details>
-  <summary><strong>Table of Contents</strong></summary>
-  <ol>
-    <li><a href="#about-the-project">About The Project</a></li>
-    <li><a href="#key-features">Key Features</a></li>
-    <li><a href="#tech-stack">Tech Stack</a></li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#firebase-setup">Firebase Setup</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+CollabFlow is a high-performance, real-time collaborative workspace and project management platform engineered for distributed engineering and product teams. Built on React 19, TypeScript, and Supabase, CollabFlow delivers sub-100ms real-time synchronization, fluid drag-and-drop Kanban workflows, in-app channel communication, granular role-based access control, and actionable velocity analytics wrapped in an architectural Neo-Brutalist design language.
 
 ---
 
-## 🌟 About The Project
+## Table of Contents
 
-**CollabFlow** is more than just a Kanban board; it's a synchronous collaboration platform built to aid remote teams in managing tasks efficiently. In an era where distributed work is the norm, CollabFlow enables teams to stay aligned without the friction of constant status meetings.
-
-We focused on three core pillars during development:
-
-- **Speed**: Instant updates across all clients. No refreshing required.
-- **Simplicity**: A clean, intuitive interface that doesn't overwhelm the user.
-- **Scalability**: Built on Firebase to handle teams of any size.
-
-Whether you are a solo developer tracking personal projects or a startup team managing your sprint, CollabFlow provides the structure you need.
-
-## 🎨 Product Demo
-
-<div align="center">
-  <h3>Landing & Role Selection</h3>
-  <img src="public/screenshots/landing_roles.png" alt="Landing Page" width="800"/>
-  <br/><br/>
-
-  <h3>Authentication</h3>
-  <img src="public/screenshots/signup.png" alt="Signup" width="800"/>
-  <br/><br/>
-
-  <h3>Project Board</h3>
-  <img src="public/screenshots/board_empty.png" alt="Board" width="800"/>
-  <br/><br/>
-
-  <h3>Analytics Dashboard</h3>
-  <img src="public/screenshots/analytics.png" alt="Analytics" width="800"/>
-  <br/><br/>
-
-  <h3>Team Chat</h3>
-  <img src="public/screenshots/chat.png" alt="Chat" width="800"/>
-</div>
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Design Philosophy](#design-philosophy)
+- [Tech Stack](#tech-stack)
+- [Architecture & Directory Structure](#architecture--directory-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Environment Configuration](#environment-configuration)
+  - [Database Setup (Supabase)](#database-setup-supabase)
+  - [Running the Development Server](#running-the-development-server)
+- [Available Scripts](#available-scripts)
+- [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## 🚀 Key Features
+## Overview
 
-### ✅ Core Functionality (Implemented)
+Traditional project management tools are often plagued by sluggish response times, cluttered pastel interfaces, and fragmented communication channels. CollabFlow solves this by prioritizing:
 
-#### 📋 Interactive Kanban Board
-
-- **Drag & Drop Interface**: Smooth, accessible drag-and-drop actions powered by `@dnd-kit` allows you to move tasks between stages effortlessly.
-- **Dynamic Columns**: Create custom workflows. Add columns like "Backlog," "Development," "Testing," and "Deployed" to match your team's process.
-- **Visual Organization**: Color-coded columns and tags help visual learners grasp the state of the project instantly.
-
-#### ⚡ Real-Time Synchronization
-
-- **Instant Updates**: Powered by Cloud Firestore's real-time listeners. When a teammate moves a card, you see it move instantly on your screen.
-- **Optimistic UI**: Interactions feel immediate, with background syncing handling the data persistence ensuring a lag-free experience.
-
-#### 🔐 Secure Authentication & User Management
-
-- **Multiple Sign-In Methods**: Support for Email/Password and Google OAuth via Firebase Authentication.
-- **Persistent Sessions**: Users stay logged in, and their state is protected across page reloads.
-- **Role-Based Access**: Granular control over who can create boards vs. who can just edit tasks (Admin/Member roles).
-
-#### 📝 Task Details & Management
-
-- **Rich Task Modals**: Click any task to view comprehensive details.
-- **Checklists**: Break down complex tasks into sub-tasks with progress bars.
-- **Priority Levels**: Set Low, Medium, or High priorities with distinct visual indicators.
-- **Due Dates**: Set deadlines and get visual warnings when tasks are overdue or approaching due date.
-- **Tagging System**: Organize tasks by category, feature, or team using customizable tags.
-
-### 🚧 Upcoming Features (Roadmap)
-
-- **Team Chat**: Integrated per-board chat rooms.
-- **Analytics Dashboard**: Velocity charts and burndown metrics.
-- **Activity Logs**: A history of who did what and when.
-- **Attachment Support**: Drag & drop file uploads to tasks.
+- **Speed & Optimistic State**: Sub-100ms UI updates with local optimistic reconciliation and persistent WebSocket broadcasting.
+- **High-Contrast Clarity**: A Neo-Brutalist aesthetic featuring strict 2px high-contrast borders, bold typography, and clear visual hierarchies that keep attention focused on execution.
+- **Unified Context**: Tasks, checklists, real-time discussions, activity history, and velocity metrics live together within dedicated workspace boards.
 
 ---
 
-## 🛠️ Tech Stack
+## Key Features
 
-This project uses the best-in-class tools for modern React development.
+### 1. Interactive Kanban Engine
+- **Fluid Drag-and-Drop**: Built with `@dnd-kit` for accessible, zero-lag task movement across columns and boards.
+- **Customizable Columns**: Configure workflows (e.g., Backlog, In Progress, Review, Done) to match squad-specific delivery processes.
+- **Priority & Due Dates**: Visual urgency markers (Urgent, High, Medium, Low) and deadline warnings.
+- **Subtask Checklists**: Break down complex deliverables into trackable checklist items with live progress calculation.
+- **Contextual Comments**: Task-level discussion threads supporting rich formatting and timestamp attribution.
 
-| Technology           | Purpose                                              |
-| :------------------- | :--------------------------------------------------- |
-| **react** (v18+)     | UI Library with Hooks & Functional Components        |
-| **typescript**       | Static Type Checking for robust code                 |
-| **vite**             | Next Generation Frontend Tooling (Super fast builds) |
-| **firebase**         | Backend-as-a-Service (Auth, Firestore, Hosting)      |
-| **tailwindcss**      | Utility-first CSS framework for styling              |
-| **@dnd-kit**         | Lightweight & accessible drag-and-drop toolkit       |
-| **lucide-react**     | Beautiful & consistent icon set                      |
-| **react-router-dom** | Client-side routing                                  |
-| **react-hot-toast**  | Elegant toast notifications                          |
+### 2. Real-Time Synchronization & Presence
+- **WebSocket Broadcasts**: State synchronization powered by Supabase Realtime across all active team screens without manual page refreshes.
+- **Optimistic UI Updates**: Changes apply instantly in the browser while persisting asynchronously to the database.
+- **Live Team Presence**: Visual indicators showing connected teammates and active board collaborators.
+
+### 3. Hierarchical Organization
+- **Multi-Workspace Isolation**: Create independent organizations or squads with isolated members, settings, and billing.
+- **Projects & Board Nesting**: Organize high-level initiatives into projects containing multiple focused Kanban boards.
+- **Workspace Switcher**: Fast navigation between personal and organizational workspaces.
+
+### 4. Integrated Channel & Board Chat
+- **Dedicated Channels**: Workspace-wide channels (e.g., `#general`, `#engineering`, `#design`) and board-level chat streams.
+- **Real-Time Messages**: Instant message delivery with sender avatar, role indicator, and time tracking.
+
+### 5. Sprint Velocity & Analytics
+- **Burn-Down & Velocity Metrics**: Historical throughput tracking and sprint completion velocity visualized using Recharts.
+- **Workload Distribution**: Measure task allocation across squads and contributors to balance workloads and prevent burnout.
+- **Cycle Time Monitoring**: Identify blocked cards and column turnaround times early in the sprint cycle.
+
+### 6. Activity Logs & Audit Trail
+- **Chronological Event Stream**: Every task creation, status transition, assignment, board edit, and invite acceptance is logged.
+- **Accountability & Compliance**: Full transparency into who made changes, what changed, and when.
+
+### 7. Public Marketing & Resource Portal
+- **Shared Public Layout**: Reusable responsive header and footer with mobile navigation drawer.
+- **Dedicated Public Pages**:
+  - **Product**: Features, How It Works, Analytics Intelligence, Transparent Pricing (Monthly/Annual toggle).
+  - **Company**: About Us (Design Philosophy), Contact Form with interactive state, Engineering Journal & Blog, Careers.
+  - **Resources & Compliance**: Documentation & API Reference, Privacy Policy, Terms of Service, 24/7 System Status Monitor.
+  - **Dynamic Article Reader**: Dedicated blog article viewer (`/blog/:slug`) with author attribution and related posts.
 
 ---
 
-## 📂 Folder Structure
+## Design Philosophy
 
-A quick look at the top-level files and directories you'll see in this project.
+CollabFlow draws inspiration from Architectural Brutalism:
+
+- **Raw Borders & Structure**: Bold `2px` black borders (`#171717`) define every card, input, and container.
+- **High Contrast Palette**: Clean surfaces (`#FFFFFF`), muted backgrounds (`#F7F7F5`), stark ink text (`#111111`), and an energetic warm orange brand accent (`#FF6B35`).
+- **Typography Scale**: Space Grotesk for display headers, Inter for readable UI content, and JetBrains Mono for code blocks and metadata.
+- **Brutalist Shadows**: Hard offset drop shadows (`0 2px 0 #171717`) instead of blurry elevation glows.
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | React 19 (`react`, `react-dom`) | Modern component architecture and concurrent rendering |
+| **Language** | TypeScript (~5.9) | Strict static type checking and domain schemas |
+| **Tooling & Bundler** | Vite 7 (`@vitejs/plugin-react-swc`) | Fast development server and optimized production build |
+| **Backend & DB** | Supabase (`@supabase/supabase-js`) | PostgreSQL database, Row-Level Security, Auth, and WebSockets |
+| **Styling** | Tailwind CSS 3.4 | Utility-first styling with custom Neo-Brutalist design tokens |
+| **Data Fetching** | TanStack React Query 5 | Client-side server cache, query invalidation, and optimistic mutations |
+| **Drag & Drop** | `@dnd-kit/core`, `@dnd-kit/sortable` | Accessible, touch-compatible drag-and-drop mechanics |
+| **Data Visualization** | Recharts 3 | Responsive velocity charts, burn-down graphs, and workload bars |
+| **Routing** | React Router 7 (`react-router-dom`) | Declarative client-side routing with code-split lazy loading |
+| **Forms & Validation** | React Hook Form & Zod | Type-safe form schemas and validated inputs |
+| **Icons** | Lucide React | Lightweight, consistent iconography |
+| **Notifications** | Sonner | Minimalist toast notifications |
+
+---
+
+## Architecture & Directory Structure
 
 ```
 CollabFlow/
-├── .github/             # GitHub Actions workflows
-├── node_modules/        # Project dependencies
-├── public/              # Static assets (favicons, images)
+├── public/                     # Static assets and favicons
+├── supabase/
+│   └── migrations/
+│       ├── 001_schema.sql      # Core PostgreSQL tables and schemas
+│       ├── 002_rls.sql         # Row-Level Security policies per role
+│       └── 003_realtime.sql    # Realtime publication and storage functions
 ├── src/
-│   ├── assets/          # SVG assets and global styles
-│   ├── components/
-│   │   ├── Auth/        # Authentication forms (Login, Signup)
-│   │   ├── Board/       # Complex Kanban board components
-│   │   ├── Chat/        # Chat interface components
-│   │   ├── Common/      # Reusable UI atoms (Buttons, Icons)
-│   │   └── Layout/      # Main app dashboard layout
-│   ├── contexts/        # React Contexts (Auth, Board, Theme)
-│   ├── hooks/           # Custom React hooks
-│   ├── lib/             # Firebase configuration
-│   ├── pages/           # High-level page views (Analytics, Settings)
-│   ├── types/           # TypeScript interface definitions
-│   ├── utils/           # Helper functions
-│   ├── App.tsx          # Main application component
-│   └── main.tsx         # Entry point
-├── .env                 # Environment variables (git-ignored)
-├── .env.example         # Example environment variables
-├── .firebaserc          # Firebase project aliases
-├── firestore.rules      # Firestore security rules
-├── storage.rules        # Storage security rules
-├── index.html           # HTML entry point
-├── package.json         # Project metadata and scripts
-├── tailwind.config.cjs  # Tailwind CSS configuration
-├── tsconfig.json        # TypeScript configuration
-└── vite.config.ts       # Vite bundler configuration
+│   ├── app/
+│   │   └── router.tsx          # Application routing and authentication guards
+│   ├── features/
+│   │   ├── activity/           # Chronological audit trail and event feeds
+│   │   ├── analytics/          # Sprint velocity charts and team workload reports
+│   │   ├── auth/               # Supabase authentication, login/signup modals, setup
+│   │   ├── boards/             # Kanban board engine, column workflows, dnd-kit logic
+│   │   ├── chat/               # Channel chat streams and real-time messaging
+│   │   ├── dashboard/          # Aggregated dashboard metrics and recent shortcuts
+│   │   ├── landing/            # Landing page hero, preview mock, and feature callouts
+│   │   ├── notifications/      # In-app notification feed and alerts
+│   │   ├── projects/           # Project management, creation modals, and lists
+│   │   ├── public/             # 13 marketing, pricing, documentation, and blog pages
+│   │   ├── settings/           # Workspace settings, member management, and RBAC
+│   │   ├── tasks/              # Task modals, checklists, labels, and comments
+│   │   └── workspaces/         # Workspace switcher, isolation, and invitation flows
+│   ├── layouts/
+│   │   ├── DashboardLayout.tsx # Main authenticated sidebar and top navigation layout
+│   │   └── PublicLayout.tsx    # Shared marketing header and footer layout
+│   ├── lib/
+│   │   └── supabase.ts         # Supabase client instantiation
+│   ├── types/                  # Global database and domain TypeScript interfaces
+│   ├── index.css               # Design tokens, Brutalist utilities, and root CSS
+│   └── main.tsx                # React root bootstrap
+├── .env.example                # Sample environment configuration
+├── package.json                # Project dependencies and npm scripts
+├── tailwind.config.cjs         # Tailwind colors, shadows, fonts, and typography
+├── tsconfig.json               # TypeScript compiler options
+└── vite.config.ts              # Vite configuration
 ```
 
 ---
 
-## 🏁 Getting Started
-
-Follow these instructions to set up your development environment.
+## Getting Started
 
 ### Prerequisites
 
-Ensure you have the following installed:
+Ensure you have the following installed on your workstation:
 
-- **Node.js** (v18.0.0 or higher)
-- **npm** (v9.0.0 or higher) or **yarn**
+- **Node.js**: Version 18.0.0 or higher (Node 20+ recommended)
+- **npm**: Version 9.0.0 or higher (or pnpm / yarn)
 - **Git**
 
 ### Installation
 
-1.  **Clone the Repository**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Md-Arif-hasnat99/Collab-Flow.git
+   cd Collab-Flow
+   ```
 
-    ```bash
-    git clone https://github.com/Md-Arif-hasnat99/Collab-Flow.git
-    cd CollabFlow
-    ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-2.  **Install Dependencies**
+### Environment Configuration
 
-    ```bash
-    npm install
-    ```
+Create a `.env` file in the project root based on the provided example:
 
-3.  **Environment Setup**
-    Create a `.env` file in the root directory by copying the example:
-    ```bash
-    cp .env.example .env
-    ```
+```bash
+cp .env.example .env
+```
 
-### 🔥 Firebase Setup
+Populate the `.env` file with your Supabase project credentials:
 
-To run this app, you need your own Firebase project.
+```env
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-public-key
+```
 
-1.  Go to [Firebase Console](https://console.firebase.google.com/) and create a new project.
-2.  **Authentication**: Enable **Email/Password** and **Google** providers in the Authentication menu.
-3.  **Firestore**: Create a Firestore database (Start in Test Mode for development).
-4.  **Configuration**: Go to Project Settings > General > "Your apps" > Web App. Copy the config values and update your `.env` file:
+### Database Setup (Supabase)
 
-    ```env
-    VITE_FIREBASE_API_KEY=AIzaSy...
-    VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-    VITE_FIREBASE_PROJECT_ID=your-project-id
-    VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-    VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
-    VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
-    VITE_FIREBASE_DATABASE_URL=https://your-project-default-rtdb.firebaseio.com
-    ```
+1. Create a new project on [Supabase](https://supabase.com/).
+2. Navigate to the **SQL Editor** in your Supabase dashboard.
+3. Apply the migrations in sequential order from `supabase/migrations/`:
+   - `001_schema.sql` (Tables: workspaces, members, projects, boards, columns, tasks, comments, chat_messages, activity_logs)
+   - `002_rls.sql` (PostgreSQL Row-Level Security policies guaranteeing cross-workspace isolation)
+   - `003_realtime_storage_functions.sql` (Realtime publication setup for instant WebSocket replication)
+4. Under **Authentication > URL Configuration**, add your local development URL (`http://localhost:5173`) to the list of allowed Redirect URLs.
 
-5.  **Run Development Server**
-    ```bash
-    npm run dev
-    ```
+### Running the Development Server
 
----
+Start the local Vite development server:
 
-## 💡 Usage
+```bash
+npm run dev
+```
 
-### Creating a Workspace
-
-1.  **Register a new account.** You will be logged in immediately.
-2.  **Create a Board.** From the sidebar, click the `+` icon to add a new project board.
-3.  **Define Columns.** By default, new boards can come with presets, or you can manually add "To Do", "In Progress", etc.
-
-### Managing Tasks
-
-- **Add Task**: Click the "+ Add Task" button at the bottom of any column.
-- **Edit Task**: Click on the card to open the modal. Here you can add descriptions, change priority, add due dates, or create sub-tasks.
-- **Move Task**: Simply drag the card to another column to change its status.
+Open [http://localhost:5173](http://localhost:5173) in your browser to view the application.
 
 ---
 
-## 🛣️ Roadmap
+## Available Scripts
 
-- [x] **Phase 1: Foundation**
+In the project root, you can run:
 
-  - [x] Project Setup (Vite + TS)
-  - [x] Firebase Integration
-  - [x] Authentication & Authorization
-
-- [x] **Phase 2: Core Features**
-
-  - [x] Kanban Board Implementation
-  - [x] Drag & Drop Functionality
-  - [x] Task CRUD & Details
-  - [x] Real-time Sync
-
-- [ ] **Phase 3: Collaboration & Social**
-
-  - [ ] Real-time Presence (Who is viewing this board?)
-  - [ ] In-app Chat System
-  - [ ] Comments on Tasks
-
-- [ ] **Phase 4: Advanced Features**
-  - [ ] Dark Mode Polish
-  - [ ] Analytics & Reporting
-  - [ ] Export to PDF/CSV
-
-See the [open issues](https://github.com/Md-Arif-hasnat99/Collab-Flow/issues) for a full list of proposed features.
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Starts the Vite development server with Hot Module Replacement (HMR) |
+| `npm run build` | Compiles TypeScript via `tsc -b` and bundles for production via `vite build` |
+| `npm run preview` | Locally serves the production bundle from the `dist/` directory |
+| `npm run lint` | Runs ESLint to identify code quality and styling issues |
 
 ---
 
-## 🤝 Contributing
+## Role-Based Access Control (RBAC)
 
-Contributions are an essential part of the open source community. We welcome all contributions!
+CollabFlow enforces strict role-based access control across all operations:
 
-1.  **Fork** the repo on GitHub.
-2.  **Clone** the project to your own machine.
-3.  **Commit** changes to your own branch.
-4.  **Push** your work back to your fork.
-5.  Submit a **Pull Request** so that we can review your changes.
-
----
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+| Role | Workspace Settings | Member Management | Projects & Boards | Tasks & Checklists | Channel Chat |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Owner** | Full Control | Full Control | Create, Edit, Delete | Full Control | Full Access |
+| **Admin** | View & Edit | Invite & Remove | Create, Edit, Delete | Full Control | Full Access |
+| **Project Manager** | Read Only | View Members | Create & Edit | Full Control | Full Access |
+| **Member** | Read Only | View Members | View Only | Create, Move, Edit | Full Access |
+| **Viewer** | Read Only | View Members | View Only | Read Only | Read Only |
 
 ---
 
-## 📞 Contact
+## Contributing
 
-**Project Link**: [https://github.com/Md-Arif-hasnat99/Collab-Flow](https://github.com/Md-Arif-hasnat99/Collab-Flow)
+Contributions are welcome! To contribute:
 
-<br />
-<div align="center">
-  <p>If you like this project, please verify give it a ⭐️ star on GitHub!</p>
-</div>
+1. Fork the repository on GitHub.
+2. Create a feature branch from `main`:
+   ```bash
+   git checkout -b feature/my-new-feature
+   ```
+3. Commit your changes following conventional commits:
+   ```bash
+   git commit -m "feat: add keyboard shortcut for task creation"
+   ```
+4. Push to your fork:
+   ```bash
+   git push origin feature/my-new-feature
+   ```
+5. Open a Pull Request detailing the changes made and testing performed.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
