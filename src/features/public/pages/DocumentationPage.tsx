@@ -138,11 +138,11 @@ export default function DocumentationPage() {
 
           <div className="lg:col-span-7 bg-ink text-surface border-2 border-border rounded-lg p-6 font-mono text-xs overflow-x-auto shadow-brutal">
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-surface/20">
-              <span className="text-surface/50">POST /api/v1/workspaces/{'{id}'}/tasks</span>
+              <span className="text-surface/50">POST /v1/workspaces/{'{id}'}/tasks</span>
               <span className="text-success font-bold">201 CREATED</span>
             </div>
             <pre className="text-surface/90 leading-relaxed">
-{`curl -X POST https://api.collabflow.app/v1/tasks \\
+{`curl -X POST https://api.collabflow.app/v1/workspaces/{id}/tasks \\
   -H "Authorization: Bearer cf_live_99d1fa98c..." \\
   -H "Content-Type: application/json" \\
   -d '{
