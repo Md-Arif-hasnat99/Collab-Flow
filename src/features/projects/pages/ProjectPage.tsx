@@ -155,6 +155,17 @@ export default function ProjectPage() {
           </div>
         )}
       </div>
+
+      {isCreatingBoard && projectId && (
+        <CreateBoardModal
+          projectId={projectId}
+          onClose={() => setIsCreatingBoard(false)}
+          onCreated={() => {
+            setIsCreatingBoard(false);
+            refetch();
+          }}
+        />
+      )}
     </div>
   );
 }
