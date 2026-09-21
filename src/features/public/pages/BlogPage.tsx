@@ -1,7 +1,17 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Clock, Calendar, Tag } from 'lucide-react';
+export interface BlogPost {
+  title: string;
+  slug: string;
+  excerpt: string;
+  tag: string;
+  date: string;
+  readTime: string;
+  author: string;
+  featured?: boolean;
+}
 
-const POSTS = [
+export const POSTS: BlogPost[] = [
   {
     title: 'Why We Bet on WebSockets for Sub-100ms Project Management',
     slug: 'websockets-sub-100ms-realtime',
@@ -98,9 +108,12 @@ export default function BlogPage() {
               </div>
               <span className="font-display font-bold text-ink text-body">{featured.author}</span>
             </div>
-            <span className="inline-flex items-center gap-1 font-display font-bold text-accent text-body">
+            <Link
+              to={`/blog/${featured.slug}`}
+              className="inline-flex items-center gap-1 font-display font-bold text-accent text-body hover:underline"
+            >
               Read Article <ArrowRight size={16} />
-            </span>
+            </Link>
           </div>
         </div>
       </section>
@@ -138,9 +151,12 @@ export default function BlogPage() {
 
                 <div className="flex items-center justify-between pt-4 border-t-2 border-border-light">
                   <span className="text-meta text-ink-muted font-mono">{post.date}</span>
-                  <span className="text-accent font-display font-bold text-meta inline-flex items-center gap-1">
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="text-accent font-display font-bold text-meta inline-flex items-center gap-1 hover:underline"
+                  >
                     Read story <ArrowRight size={14} />
-                  </span>
+                  </Link>
                 </div>
               </div>
             ))}

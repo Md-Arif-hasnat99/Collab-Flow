@@ -12,6 +12,7 @@ const PricingPage       = lazy(() => import('../features/public/pages/PricingPag
 const AboutPage         = lazy(() => import('../features/public/pages/AboutPage'));
 const ContactPage       = lazy(() => import('../features/public/pages/ContactPage'));
 const BlogPage          = lazy(() => import('../features/public/pages/BlogPage'));
+const BlogPostPage      = lazy(() => import('../features/public/pages/BlogPostPage'));
 const CareersPage       = lazy(() => import('../features/public/pages/CareersPage'));
 const DocumentationPage = lazy(() => import('../features/public/pages/DocumentationPage'));
 const PrivacyPage       = lazy(() => import('../features/public/pages/PrivacyPage'));
@@ -83,6 +84,7 @@ export function AppRouter() {
             <Route path="about"           element={<AboutPage />} />
             <Route path="contact"         element={<ContactPage />} />
             <Route path="blog"            element={<BlogPage />} />
+            <Route path="blog/:slug"      element={<BlogPostPage />} />
             <Route path="careers"         element={<CareersPage />} />
             <Route path="documentation"   element={<DocumentationPage />} />
             <Route path="privacy"         element={<PrivacyPage />} />
