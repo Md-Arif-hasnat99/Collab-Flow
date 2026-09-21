@@ -14,6 +14,9 @@ const WorkspacePage     = lazy(() => import('../features/workspaces/pages/Worksp
 const ProjectPage       = lazy(() => import('../features/projects/pages/ProjectPage'));
 const BoardPage         = lazy(() => import('../features/boards/pages/BoardPage'));
 const TaskDetailPage    = lazy(() => import('../features/tasks/pages/TaskDetailPage'));
+const MyTasksPage       = lazy(() => import('../features/tasks/pages/MyTasksPage'));
+const ProjectsListPage  = lazy(() => import('../features/projects/pages/ProjectsListPage'));
+const BoardsListPage    = lazy(() => import('../features/boards/pages/BoardsListPage'));
 const ChatPage          = lazy(() => import('../features/chat/pages/ChatPage'));
 const ActivityPage      = lazy(() => import('../features/activity/pages/ActivityPage'));
 const AnalyticsPage     = lazy(() => import('../features/analytics/pages/AnalyticsPage'));
@@ -75,12 +78,15 @@ export function AppRouter() {
           {/* ── Protected: Main App ────────────────────────── */}
           <Route element={<RequireAuth />}>
             <Route path="/app" element={<DashboardLayout />}>
-              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route index element={<Navigate to="tasks" replace />} />
               <Route path="dashboard"                      element={<DashboardRouter />} />
               <Route path="workspaces/:workspaceId"        element={<WorkspacePage />} />
-              <Route path="projects/:projectId"            element={<ProjectPage />} />
-              <Route path="boards/:boardId"                element={<BoardPage />} />
+              <Route path="tasks"                          element={<MyTasksPage />} />
               <Route path="tasks/:taskId"                  element={<TaskDetailPage />} />
+              <Route path="projects"                       element={<ProjectsListPage />} />
+              <Route path="projects/:projectId"            element={<ProjectPage />} />
+              <Route path="boards"                         element={<BoardsListPage />} />
+              <Route path="boards/:boardId"                element={<BoardPage />} />
               <Route path="chat"                           element={<ChatPage />} />
               <Route path="activity"                       element={<ActivityPage />} />
               <Route path="analytics"                      element={<AnalyticsPage />} />
